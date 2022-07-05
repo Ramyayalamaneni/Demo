@@ -1,13 +1,20 @@
-let sendGetRequestBtnEl = document.getElementById('sendGetRequestBtn');
+let requestBodyEl = document.getElementById('requestBody');
+let sendPostRequestBtnEl = document.getElementById('sendPostRequestBtn');
 let requestStatusEl = document.getElementById('requestStatus');
 let httpResponseEl = document.getElementById('httpResponse');
-//console.log(sendGetRequestBtnEl, requestStatusEl, httpResponseEl);
 
-sendGetRequestBtnEl.onclick = function () {
+sendPostRequestBtnEl.onclick = function () {
 	let url = 'https://gorest.co.in/public-api/users';
-
+	let requestBodyValue = requestBodyEl.value;
 	let options = {
-		method: 'GET',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization:
+				'Bearer 22db410147513752371b989f20aaf238eb320c79a7122240aa1a58690a81827b',
+		},
+		body: requestBodyValue,
 	};
 
 	fetch(url, options)
@@ -16,11 +23,9 @@ sendGetRequestBtnEl.onclick = function () {
 		})
 		.then(function (jsonData) {
 			let code = jsonData.code;
+			let data = JSON.stringify(jsonData.data);
 			requestStatusEl.textContent = code;
-			//console.log(code);
-
-			let stringData = JSON.stringify(jsonData);
-			httpResponseEl.textContent = stringData;
-			// console.log(stringData);
+			httpResponseEl.textContent = data;
+			console.log(data);
 		});
 };
